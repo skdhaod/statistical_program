@@ -22,23 +22,23 @@ int main(int argc, char** argv){
     p1.load_field_name();
     p1.load_record();
     p1.stats_processing();
-    // cout<< argv[1] << argc << endl;
-    // while(1){
-    //     system("cls");
-    //     p1.view_title();
-    //     cin>>num;
-    //     switch (num){
-    //     case 1: p1.view_data_list();
-    //         break;
-    //     case 2: p1.view_stats();
-    //         break;
-    //     case 3: p1.save();
-    //         break;
-    //     case 4: p1.exit(); return 0;
-    //         break;
-    //     default:
-    //         break;
-    //     }
-    // }
-    // return 0;
+    cout<< argv[1] << argc << endl;
+    while(1){
+        system("cls");
+        p1.view_title();
+        cin>>num;
+        switch (num){
+        case 1: p1.view_data_list();
+            break;
+        case 2: p1.view_stats();
+            break;
+        case 3: p1.save();
+            break;
+        case 4: p1.exit(); return 0;
+            break;
+        default:
+            break;
+        }
+    }
+    return 0;
 }

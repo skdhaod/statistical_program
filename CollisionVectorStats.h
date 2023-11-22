@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "MyVector.h"
+//#include "MyVector.h"
 #include <windows.h> //화면 clear, 콘솔 커서 위치 변경
 #include <iomanip>//cout 조작자 사용.. 
 #include <fstream>//txt 파일 접근
@@ -32,7 +32,7 @@ class CollisionVectorStats{
     Record record_lists[80];
     // MyVector v[80];
     // MyVector v_sub; //벡터 차
-    int max_differene_index=1;
+    int max_differene_index; //차이가 가장 큰 인덱스
     ifstream data_file;
     string data_file_name;
     
@@ -43,6 +43,7 @@ class CollisionVectorStats{
     int load_record();
 
     void stats_processing();
+    float get_vector_sub(string, string);
 
     void view_title();//타이틀 화면
 
