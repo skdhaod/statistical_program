@@ -17,7 +17,7 @@ int CollisionVectorStats::load_file_name(string s){
     else return 1;
 }
 
-//Tick[ms],Height[g],Horizontal[g],Vertical[g],Magnitude[g],Temperature[C],Date,Time 이중에 높이 가로세로 날짜만 처리
+//Tick[ms],Height[g],Horizontal[g],Vertical[g],Magnitude[g],Temperature[C],Date,Time 이중에 높이 가로 세로 벡터 날짜시간만 처리
 int CollisionVectorStats::load_field_name(){
     string character; //한 글자씩 받을거임
     string temp="";//단어 임시저장할 공간
@@ -112,7 +112,6 @@ void CollisionVectorStats::view_data_list(){
 }
 void CollisionVectorStats::view_stats(){
     string temp;
-    //this->stats_processing();
     system("cls");
     cout << "가장 큰 벡터값 차이" << endl << endl;
     cout << " index["<< max_differene_index-1 <<"] x: "<< record_lists[max_differene_index-1].height << ", y: " << record_lists[max_differene_index-1].horizontal <<", z: "<< record_lists[max_differene_index-1].vertical << ", v: "<< record_lists[max_differene_index-1].vector << endl;

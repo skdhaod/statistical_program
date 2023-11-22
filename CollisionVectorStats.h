@@ -2,7 +2,7 @@
 #include <iostream>
 //#include "MyVector.h"
 #include <windows.h> //화면 clear, 콘솔 커서 위치 변경
-#include <iomanip>//cout 조작자 사용.. 
+#include <iomanip>//cout 조작자 사용..
 #include <fstream>//txt 파일 접근
 #include <string>
 #include <limits>
