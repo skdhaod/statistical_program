@@ -113,16 +113,28 @@ void Program::load_file_name(string s){
     this->data_file.open(s);
 }
 void Program::load_field_name(){
-    string str;
+    string character; //한 글자씩 받을거임
+    string temp="";//단어 임시저장할 공간
     int comma_index=0;
-    getline(data_file, str);
-    for(int i=0;str[i];i++){
-        if(str[i]==','){comma_index++; continue;}
-        if(comma_index==1)f_i.height_index=comma_index;
-        if(comma_index==2)f_i.horizontal_index=comma_index;
-        if(comma_index==3)f_i.vertical_index=comma_index;
-        if(comma_index==6)f_i.date_index=comma_index;
-        if(comma_index==7)f_i.time_index=comma_index;
+    getline(data_file, character);
+    for(int i=0;character[i];i++){
+        if(character[i]==','){
+            comma_index++;
+            temp="";
+            continue;
+        }
+        temp+=character[i];
+
+        if(temp=="Height")
+            f_i.height_index=comma_index;
+        if(temp=="Horizontal")
+            f_i.horizontal_index=comma_index;
+        if(temp=="Vertical")
+            f_i.vertical_index=comma_index;
+        if(temp=="Date")
+            f_i.date_index=comma_index;
+        if(temp=="Time")
+            f_i.time_index=comma_index;
     }
 }
 void Program::load_record(){
@@ -131,12 +143,19 @@ void Program::load_record(){
         int comma_index=0;
         getline(data_file, str);
         for(int i=0;str[i];i++){
-            if(str[i]==','){comma_index++; continue;}
-            if(comma_index==f_i.height_index)record_list[record_list_index].height+=str[i];
-            if(comma_index==f_i.horizontal_index)record_list[record_list_index].horizontal+=str[i];
-            if(comma_index==f_i.vertical_index)record_list[record_list_index].vertical+=str[i];
-            if(comma_index==f_i.date_index)record_list[record_list_index].date+=str[i];
-            if(comma_index==f_i.time_index)record_list[record_list_index].time+=str[i];
+            if(str[i]==',') {
+                comma_index++; continue;
+            }
+            if(comma_index==f_i.height_index)
+                record_list[record_list_index].height+=str[i];
+            if(comma_index==f_i.horizontal_index)
+                record_list[record_list_index].horizontal+=str[i];
+            if(comma_index==f_i.vertical_index)
+                record_list[record_list_index].vertical+=str[i];
+            if(comma_index==f_i.date_index)
+                record_list[record_list_index].date+=str[i];
+            if(comma_index==f_i.time_index)
+                record_list[record_list_index].time+=str[i];
         }
         record_list_index++;
     }
