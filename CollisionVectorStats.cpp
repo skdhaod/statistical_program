@@ -3,19 +3,12 @@ using namespace std;
 
 void CollisionVectorStats::view_title(){
     system("cls");
-    cout << endl << "    ┌──────────────────────────────┐" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │      통계 처리 프로그램      │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │      1. 데이터 조회          │" << endl;
-    cout << "    │      2. 통계 조회            │" << endl;
-    cout << "    │      3. 저장                 │" << endl;
-    cout << "    │      4. 종료                 │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │      >>                      │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    └──────────────────────────────┘" << endl;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {14, 10});
+    cout << " 통계 처리 프로그램" << endl << endl;
+    cout << " 1. 데이터 조회" << endl;
+    cout << " 2. 통계 조회" << endl;
+    cout << " 3. 저장" << endl;
+    cout << " 4. 종료" << endl << endl;
+    cout << " >> ";
 }
 int CollisionVectorStats::load_file_name(string s){
     data_file_name=s;
@@ -48,6 +41,8 @@ int CollisionVectorStats::load_field_name(){
             f_i.date_index=comma_index;
         if(temp=="Time")
             f_i.time_index=comma_index;
+        if(temp=="Magnitude")
+            f_i.vector_index=comma_index;
     }
 }
 int CollisionVectorStats::load_record(){
@@ -74,8 +69,10 @@ int CollisionVectorStats::load_record(){
 
             if(comma_index==f_i.time_index)
                 record_lists[j].time+=str[i];
+            if(comma_index==f_i.vector_index)
+                record_lists[j].vector+=str[i];
         }
-        v[j].get_vector_xyz(record_lists[j].height, record_lists[j].horizontal, record_lists[j].vertical);
+        //v[j].get_vector_xyz(record_lists[j].height, record_lists[j].horizontal, record_lists[j].vertical);
         // cout << record_lists[j].height << endl;
         // v[j].printv();
         
@@ -89,19 +86,13 @@ void CollisionVectorStats::view_data_list(){
     int i=0;
     for(;;){
         system("cls");
-        cout << endl << "    ┌──────────────────────────────┐" << endl;
-        cout << "    │                              │" << endl;
-        cout << "    │    데이터 목록 조회: "<<setw(2) << left << i+1 << "번    │" << endl;
-        cout << "    │     " << record_lists[i].date << " " << record_lists[i].time << "      │" << endl;
-        cout << "    │     height: " << setw(8) << left << record_lists[i].height << "         │" << endl;
-        cout << "    │     Horizontal: " << setw(8) << left << record_lists[i].horizontal << "     │" << endl;
-        cout << "    │     vertical: " << setw(8) << left << record_lists[i].vertical << "       │" << endl;
-        cout << "    │                              │" << endl;
-        cout << "    │      숫자-n번 데이터         │" << endl;
-        cout << "    │      >>                      │" << endl;
-        cout << "    │                              │" << endl;
-        cout << "    └──────────────────────────────┘" << endl;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {14, 10});
+        cout << "데이터 목록 조회: "<<setw(2) << left << i+1 << "번" << endl << endl;
+        cout << " " << record_lists[i].date << " " << record_lists[i].time << endl;
+        cout << " height: " << setw(8) << left << record_lists[i].height << endl;
+        cout << " Horizontal: " << setw(8) << left << record_lists[i].horizontal << endl;
+        cout << " vertical: " << setw(8) << left << record_lists[i].vertical << endl << endl;
+        cout << "  숫자-n번 데이터" << endl;
+        cout << "  >> ";
 
         do{
             std::cin >> temp;
@@ -123,81 +114,62 @@ void CollisionVectorStats::view_stats(){
     string temp;
     //this->stats_processing();
     system("cls");
-    cout << endl << "    ┌──────────────────────────────┐" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │      가장 큰 벡터값 차이     │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │    index["<<"i-1"<<"] x: "<< v[max_differene_index-1].get_x() << ", y: " << v[max_differene_index-1].get_y() <<", z: "<< v[max_differene_index-1].get_z() << endl;
-    cout << "    │    index["<<"i"<<"] x: "<< v[max_differene_index].get_x() << ", y: " << v[max_differene_index].get_y() <<", z: "<< v[max_differene_index].get_z() << endl;
-    cout << "    │    총 벡터값 차이: "<< v_sub.get_vector_value() <<"   │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │     아무 글자나 입력하세요   │" << endl;
-    cout << "    │      >>                      │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    └──────────────────────────────┘" << endl;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {14, 10});
+    cout << "가장 큰 벡터값 차이" << endl << endl;
+    cout << " index["<< max_differene_index-1 <<"] x: "<< record_lists[max_differene_index-1].height << ", y: " << record_lists[max_differene_index-1].horizontal <<", z: "<< record_lists[max_differene_index-1].vertical << ", v: "<< record_lists[max_differene_index-1].vector << endl;
+    cout << " index["<< max_differene_index <<"] x: "<< record_lists[max_differene_index].height << ", y: " << record_lists[max_differene_index].horizontal <<", z: "<< record_lists[max_differene_index].vertical<< ", v: "<< record_lists[max_differene_index].vector << endl;
+    cout << " 총 벡터값 차이: " << setw(7) << left << get_vector_sub(record_lists[max_differene_index].vector, record_lists[max_differene_index-1].vector) << endl << endl;
+    cout << "  아무 글자나 입력하세요" << endl;
+    cout << "   >> ";
     cin>>temp;
 }
 void CollisionVectorStats::stats_processing(){
     int i;
-    MyVector temp;
+    max_differene_index=0;
+    float temp=0;
     for(i=1;i<80;i++){ // 첫번째 값은 전 벡터값이 없음
-        cout << v[i-1].get_vector_value() << " " << v[i].get_vector_value() << endl;
-        temp=v[i]-v[i-1];
-        if(temp.get_vector_value()>v_sub.get_vector_value()){//지금께 더 크면
+        if(get_vector_sub(record_lists[i].vector, record_lists[i-1].vector) > temp){
             max_differene_index=i;
+            temp=get_vector_sub(record_lists[i].vector, record_lists[i-1].vector);
         }
-        cout << temp.get_vector_value() << endl;
-        cout << max_differene_index<< endl;
     }
+    //cout << max_differene_index;
     // cin>>i;
 }
+
+float CollisionVectorStats::get_vector_sub(string s1, string s2){
+    float result;
+    if(s1>s2){
+        result=stof(s1)-stof(s2);
+    }
+    else{
+        result=stof(s2)-stof(s1);
+    }
+    return result;
+}
+
 void CollisionVectorStats::save(){
     ofstream file;
 	cout << fixed;
 	cout.precision(2);
 
-    file.open("result.txt");
+    file.open(data_file_name+"_result.txt");
     file << "flie name: " << data_file_name << endl << endl;
-    // file << " height 최댓값: " << record_lists[s_i.height_max_index].height << ", index: " << s_i.height_max_index << endl;
-    // file << " height 최솟값: " << record_lists[s_i.height_min_index].height << ", index: " << s_i.height_min_index << endl;
-    // file << " horizontal 최댓값: " << record_lists[s_i.horizontal_max_index].horizontal << ", index: " << s_i.horizontal_max_index << endl;
-    // file << " horizontal 최솟값: " << record_lists[s_i.horizontal_min_index].horizontal << ", index: " << s_i.horizontal_min_index << endl;
-    // file << " vertical 최댓값: " << record_lists[s_i.vertical_max_index].height << ", index: " << s_i.vertical_max_index << endl;
-    // file << " vertical 최솟값: " << record_lists[s_i.vertical_min_index].height << ", index: " << s_i.vertical_min_index << endl;
+    file << "가장 큰 벡터값 차이" << endl << endl;
+    file << " index["<< max_differene_index-1 <<"] x: "<< record_lists[max_differene_index-1].height << ", y: " << record_lists[max_differene_index-1].horizontal <<", z: "<< record_lists[max_differene_index-1].vertical << ", v: "<< record_lists[max_differene_index-1].vector << endl;
+    file << " index["<< max_differene_index <<"] x: "<< record_lists[max_differene_index].height << ", y: " << record_lists[max_differene_index].horizontal <<", z: "<< record_lists[max_differene_index].vertical<< ", v: "<< record_lists[max_differene_index].vector << endl;
+    file << " 총 벡터값 차이: " << setw(7) << left << get_vector_sub(record_lists[max_differene_index].vector, record_lists[max_differene_index-1].vector)<< endl << endl;
 
     view_save();
 }
 void CollisionVectorStats::view_save(){
     string temp;
     system("cls");
-    cout << endl << "    ┌──────────────────────────────┐" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │          txt파일로           │" << endl;
-    cout << "    │       저장되었습니다.        │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │     아무 글자나 입력하세요   │" << endl;
-    cout << "    │      >>                      │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    └──────────────────────────────┘" << endl;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {14, 10});
+    cout << "txt파일로 저장되었습니다. " << endl << endl;
+    cout << " 아무 글자나 입력하세요" << endl;
+    cout << " >> ";
     cin>>temp;
 }
 void CollisionVectorStats::exit(){
     system("cls");
-    cout << endl << "    ┌──────────────────────────────┐" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │      통계 처리 프로그램      │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │      1. 데이터 조회          │" << endl;
-    cout << "    │      2. 통계 조회            │" << endl;
-    cout << "    │      3. 저장                 │" << endl;
-    cout << "    │      4. 종료                 │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    │      >> 감사합니다.          │" << endl;
-    cout << "    │                              │" << endl;
-    cout << "    └──────────────────────────────┘" << endl << endl;
+    cout << endl <<  " 감사합니다." << endl;
 }
