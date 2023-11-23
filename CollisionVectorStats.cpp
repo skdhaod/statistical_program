@@ -1,5 +1,5 @@
 #include "CollisionVectorStats.h"
-using namespace std; // 파일 개수를 유동적으로 바꿀 수 있게 하기 //1123
+using namespace std;
 
 void CollisionVectorStats::view_title(){
     system("cls");
