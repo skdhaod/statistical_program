@@ -33,6 +33,7 @@ class CollisionVectorStats{
     // MyVector v[80];
     // MyVector v_sub; //벡터 차
     int max_differene_index; //차이가 가장 큰 인덱스
+    int total_line_num; //라인 개수
     ifstream data_file;
     string data_file_name;
     

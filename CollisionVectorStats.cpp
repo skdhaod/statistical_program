@@ -1,5 +1,5 @@
 #include "CollisionVectorStats.h"
-using namespace std;
+using namespace std; // 파일 개수를 유동적으로 바꿀 수 있게 하기 //1123
 
 void CollisionVectorStats::view_title(){
     system("cls");
@@ -48,9 +48,12 @@ int CollisionVectorStats::load_field_name(){
 int CollisionVectorStats::load_record(){
     string temp;
     string str;
-    for(int j=0; j<80; j++){
+    int a;
+    total_line_num=0;
+    for(int j=0;; j++){
         int comma_index=0;
         getline(data_file, str);
+        if(str=="") break;
         for(int i=0;str[i];i++){
             if(str[i]==',') {
                 comma_index++; continue;
@@ -72,13 +75,15 @@ int CollisionVectorStats::load_record(){
             if(comma_index==f_i.vector_index)
                 record_lists[j].vector+=str[i];
         }
+        total_line_num++;
         //v[j].get_vector_xyz(record_lists[j].height, record_lists[j].horizontal, record_lists[j].vertical);
         // cout << record_lists[j].height << endl;
         // v[j].printv();
-        
+        // cout << total_line_num << endl;
+        // cin>>a;
     }
 
-    if(record_lists[79].height!="") return 0;
+    if(record_lists[total_line_num-1].height!="") return 0;
 }
 
 void CollisionVectorStats::view_data_list(){
@@ -94,19 +99,17 @@ void CollisionVectorStats::view_data_list(){
         cout << "  숫자-n번 데이터" << endl;
         cout << "  >> ";
 
-        do{
-            std::cin >> temp;
-            if (cin.fail()) { // 예외처리
-                cin.clear(); // 에러 플래그를 초기화
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // 잘못된 입력을 무시
-                return; // 에러 메시지 출력 또는 다른 처리
-            }
-            else{
-                break;
-            }
-        }while(1);
+        cin >> temp;
+        if (cin.fail()) { // 예외처리
+            cin.clear(); // 에러 플래그를 초기화
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n'); // 잘못된 입력을 무시
+            return; // 에러 메시지 출력 또는 다른 처리
+        }
+        else{
+            break;
+        }
 
-        if(temp>80 || temp<1) return;
+        if(temp>total_line_num || temp<1) return;
         i=temp-1;
     }
 }
@@ -119,20 +122,19 @@ void CollisionVectorStats::view_stats(){
     cout << " 총 벡터값 차이: " << setw(7) << left << get_vector_sub(record_lists[max_differene_index].vector, record_lists[max_differene_index-1].vector) << endl << endl;
     cout << "  아무 글자나 입력하세요" << endl;
     cout << "   >> ";
+
     cin>>temp;
 }
 void CollisionVectorStats::stats_processing(){
     int i;
     max_differene_index=0;
-    float temp=0;
-    for(i=1;i<80;i++){ // 첫번째 값은 전 벡터값이 없음
+    float temp=0.00000;
+    for(i=1;i<total_line_num;i++){ // 첫번째 값은 전 벡터값이 없음
         if(get_vector_sub(record_lists[i].vector, record_lists[i-1].vector) > temp){
             max_differene_index=i;
             temp=get_vector_sub(record_lists[i].vector, record_lists[i-1].vector);
         }
     }
-    //cout << max_differene_index;
-    // cin>>i;
 }
 
 float CollisionVectorStats::get_vector_sub(string s1, string s2){

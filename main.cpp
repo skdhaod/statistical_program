@@ -23,7 +23,19 @@ int main(int argc, char** argv){
     while(1){
         system("cls");
         p1.view_title();
-        cin>>num;
+
+        do{
+            cin>>num;
+            if (cin.fail()) { // 예외처리
+                cin.clear(); // 에러 플래그를 초기화
+                cin.ignore(numeric_limits<std::streamsize>::max(), '\n'); // 잘못된 입력을 무시
+                continue;
+            }
+            else{
+                break;
+            }
+        }while(1);
+
         switch (num){
         case 1: p1.view_data_list();
             break;
