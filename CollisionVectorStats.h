@@ -10,10 +10,10 @@ using namespace std;
 
 class Record{
     public:
-    string height;
-    string horizontal;
-    string vertical;
-    string vector; //계산된 벡터값이 있었다...
+    float height;
+    float horizontal;
+    float vertical;
+    float vector; //계산된 벡터값이 있었다...
     string date;
     string time;
 };
@@ -28,7 +28,7 @@ class FieldIndex{
 };
 
 class CollisionVectorStats{
-    FieldIndex f_i;
+    FieldIndex f_i={-1,-1,-1,-1,-1,-1};
     Record record_lists[80];
     // MyVector v[80];
     // MyVector v_sub; //벡터 차
@@ -44,7 +44,7 @@ class CollisionVectorStats{
     int load_record();
 
     void stats_processing();
-    float get_vector_sub(string, string);
+    float get_vector_sub(float, float);
 
     void view_title();//타이틀 화면
 

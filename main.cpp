@@ -16,25 +16,25 @@ int main(int argc, char** argv){
         return 0;
     }
     
-    p1.load_field_name();
-    p1.load_record();
+    if(p1.load_field_name()){
+        cout << "field name load error" << endl;
+        return 0;
+    }
+    if(p1.load_record()){
+        cout << "record load error" << endl;
+    }
     p1.stats_processing();
     cout<< argv[1] << argc << endl;
     while(1){
         system("cls");
         p1.view_title();
 
-        do{
-            cin>>num;
-            if (cin.fail()) { // 예외처리
-                cin.clear(); // 에러 플래그를 초기화
-                cin.ignore(numeric_limits<std::streamsize>::max(), '\n'); // 잘못된 입력을 무시
-                continue;
-            }
-            else{
-                break;
-            }
-        }while(1);
+        cin>>num;
+        if (cin.fail()) { // 예외처리
+            cin.clear(); // 에러 플래그를 초기화
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n'); // 잘못된 입력을 무시
+            continue;
+        }
 
         switch (num){
         case 1: p1.view_data_list();

@@ -44,6 +44,11 @@ int CollisionVectorStats::load_field_name(){
         if(temp=="Magnitude")
             f_i.vector_index=comma_index;
     }
+    cout << f_i.height_index << " " << f_i.horizontal_index << " " << f_i.date_index << " " << f_i.vertical_index << " " <<  f_i.time_index << " " << endl; 
+    if(f_i.height_index==-1 || f_i.horizontal_index==-1 || f_i.vertical_index==-1 || f_i.date_index==-1 || f_i.time_index==-1 || f_i.vector_index==-1){
+        return 1;
+    }
+    return 0;
 }
 int CollisionVectorStats::load_record(){
     string temp;
@@ -56,24 +61,22 @@ int CollisionVectorStats::load_record(){
         if(str=="") break;
         for(int i=0;str[i];i++){
             if(str[i]==',') {
+
+                if(comma_index==f_i.height_index)
+                    record_lists[j].height=stof(temp);
+                if(comma_index==f_i.vertical_index)
+                    record_lists[j].vertical=stof(temp);
+                if(comma_index==f_i.horizontal_index)
+                    record_lists[j].horizontal=stof(temp);
+                if(comma_index==f_i.date_index)
+                    record_lists[j].date=temp;
+                if(comma_index==f_i.time_index)
+                    record_lists[j].time=temp;
+
+                temp="";
                 comma_index++; continue;
             }
-            if(comma_index==f_i.height_index)
-                record_lists[j].height+=str[i];
-
-            if(comma_index==f_i.horizontal_index)
-                record_lists[j].horizontal+=str[i];
-
-            if(comma_index==f_i.vertical_index)
-                record_lists[j].vertical+=str[i];
-
-            if(comma_index==f_i.date_index)
-                record_lists[j].date+=str[i];
-
-            if(comma_index==f_i.time_index)
-                record_lists[j].time+=str[i];
-            if(comma_index==f_i.vector_index)
-                record_lists[j].vector+=str[i];
+            temp+=str[i];
         }
         total_line_num++;
         //v[j].get_vector_xyz(record_lists[j].height, record_lists[j].horizontal, record_lists[j].vertical);
@@ -83,7 +86,7 @@ int CollisionVectorStats::load_record(){
         // cin>>a;
     }
 
-    if(record_lists[total_line_num-1].height!="") return 0;
+    if(!record_lists[total_line_num-1].height) return 1;
 }
 
 void CollisionVectorStats::view_data_list(){
@@ -105,10 +108,6 @@ void CollisionVectorStats::view_data_list(){
             cin.ignore(numeric_limits<std::streamsize>::max(), '\n'); // 잘못된 입력을 무시
             return; // 에러 메시지 출력 또는 다른 처리
         }
-        else{
-            break;
-        }
-
         if(temp>total_line_num || temp<1) return;
         i=temp-1;
     }
@@ -137,15 +136,15 @@ void CollisionVectorStats::stats_processing(){
     }
 }
 
-float CollisionVectorStats::get_vector_sub(string s1, string s2){
+float CollisionVectorStats::get_vector_sub(float num1, float num2){
     float result;
-    if(s1>s2){
-        result=stof(s1)-stof(s2);
+    if(num1>num2){
+        return num1-num2;
     }
     else{
-        result=stof(s2)-stof(s1);
+        return num2-num1;
     }
-    return result;
+     
 }
 
 void CollisionVectorStats::save(){
