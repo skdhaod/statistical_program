@@ -10,7 +10,7 @@ int main(int argc, char** argv){
     }
 
     for(int i=1; i<argc; i++){
-        CollisionVectorStats *p = new CollisionVectorStats;
+        CollisionVectorStats *p = new CollisionVectorStats();
 
         if(p->load_file_name(argv[i])){
             cout << "failed to open file" << endl;
@@ -24,9 +24,10 @@ int main(int argc, char** argv){
         if(p->load_record()){
             cout << "record load error" << endl;
         }
-        p->stats_processing();
 
-        p->stats_processing();
+        if(p->stats_processing()){
+            cout << "stats prosassing error" << endl;
+        }
         p->save();
 
         cout << "Processing of "<< p->get_filename() << " file completed" << endl;

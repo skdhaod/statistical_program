@@ -1,15 +1,7 @@
 #include "CollisionVectorStats.h"
 using namespace std;
 
-void CollisionVectorStats::view_title(){
-    system("cls");
-    cout << " 통계 처리 프로그램" << endl << endl;
-    cout << " 1. 데이터 조회" << endl;
-    cout << " 2. 통계 조회" << endl;
-    cout << " 3. 저장" << endl;
-    cout << " 4. 종료" << endl << endl;
-    cout << " >> ";
-}
+// 
 int CollisionVectorStats::load_file_name(string s){
     data_file_name=s;
     this->data_file.open(s);
@@ -79,11 +71,12 @@ int CollisionVectorStats::load_record(){
         if(str=="") break;
         for(int i=0;str[i];i++){
             if(str[i]==',') {
-
                 if(comma_index==f_i.height_index)
                     record_lists[j].height=stof(temp);
                 if(comma_index==f_i.vertical_index)
                     record_lists[j].vertical=stof(temp);
+                if(comma_index==f_i.vector_index)
+                    record_lists[j].vector=stof(temp);
                 if(comma_index==f_i.horizontal_index)
                     record_lists[j].horizontal=stof(temp);
                 if(comma_index==f_i.date_index)
@@ -108,7 +101,7 @@ int CollisionVectorStats::load_record(){
     return 0;
 }
 
-void CollisionVectorStats::stats_processing(){
+int CollisionVectorStats::stats_processing(){
     int i;
     max_differene_index=0;
     float temp=0.00000;
@@ -118,6 +111,8 @@ void CollisionVectorStats::stats_processing(){
             temp=get_vector_sub(record_lists[i].vector, record_lists[i-1].vector);
         }
     }
+    if(i==total_line_num) return 0;
+    return 1;
 }
 
 float CollisionVectorStats::get_vector_sub(float num1, float num2){
@@ -131,7 +126,7 @@ float CollisionVectorStats::get_vector_sub(float num1, float num2){
      
 }
 
-void CollisionVectorStats::save(){
+int CollisionVectorStats::save(){
     ofstream file;
 	cout << fixed;
 	cout.precision(2);
@@ -142,9 +137,18 @@ void CollisionVectorStats::save(){
     file << " index["<< max_differene_index-1 <<"] x: "<< record_lists[max_differene_index-1].height << ", y: " << record_lists[max_differene_index-1].horizontal <<", z: "<< record_lists[max_differene_index-1].vertical << ", v: "<< record_lists[max_differene_index-1].vector << endl;
     file << " index["<< max_differene_index <<"] x: "<< record_lists[max_differene_index].height << ", y: " << record_lists[max_differene_index].horizontal <<", z: "<< record_lists[max_differene_index].vertical<< ", v: "<< record_lists[max_differene_index].vector << endl;
     file << " 총 벡터값 차이: " << setw(7) << left << get_vector_sub(record_lists[max_differene_index].vector, record_lists[max_differene_index-1].vector)<< endl << endl;
-
     // view_save();
 }
+//void CollisionVectorStats::view_title(){
+//     system("cls");
+//     cout << " 통계 처리 프로그램" << endl << endl;
+//     cout << " 1. 데이터 조회" << endl;
+//     cout << " 2. 통계 조회" << endl;
+//     cout << " 3. 저장" << endl;
+//     cout << " 4. 종료" << endl << endl;
+//     cout << " >> ";
+// }
+
 // void CollisionVectorStats::view_save(){
 //     string temp;
 //     system("cls");

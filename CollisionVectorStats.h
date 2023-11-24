@@ -47,14 +47,14 @@ class CollisionVectorStats{
     int load_field_name();
     int load_record();
 
-    void stats_processing();
+    int stats_processing();
     float get_vector_sub(float, float);
 
-    void view_title();//타이틀 화면
+    //void view_title();//타이틀 화면
 
 
-    void save();//통계 내용 txt로 저장
-    
+    int save();//통계 내용 txt로 저장
+
     // void view_data_list();//데이터 목록 조회
     // void view_stats();//통계 조회
     // void view_save();
