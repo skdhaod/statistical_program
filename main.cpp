@@ -13,20 +13,22 @@ int main(int argc, char** argv){
         CollisionVectorStats *p = new CollisionVectorStats();
 
         if(p->load_file_name(argv[i])){
-            cout << "failed to open file" << endl;
-            return 0;
+            cout << "failed to open file" << endl << endl;
+            continue;
         }
         
         if(p->load_field_name()){
-            cout << "field name load error" << endl;
-            return 0;
+            cout << "field name load error" << endl << endl;
+            continue;
         }
         if(p->load_record()){
-            cout << "record load error" << endl;
+            cout << "record load error" << endl << endl;
+            continue;
         }
 
         if(p->stats_processing()){
-            cout << "stats prosassing error" << endl;
+            cout << "stats prosassing error" << endl << endl;
+            continue;
         }
         p->save();
 
