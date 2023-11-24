@@ -1,6 +1,5 @@
 #include "CollisionVectorStats.h"
 //충돌 실험 통계처리 시스템
-/////////파일 읽기로 변경
 
 using namespace std;
 int main(int argc, char** argv){

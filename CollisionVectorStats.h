@@ -30,12 +30,12 @@ class FieldIndex{
 class CollisionVectorStats{
     FieldIndex f_i={-1,-1,-1,-1,-1,-1};
     Record record_lists[80];
-    // MyVector v[80];
-    // MyVector v_sub; //벡터 차
     int max_differene_index; //차이가 가장 큰 인덱스
     int total_line_num; //라인 개수
     ifstream data_file;
     string data_file_name;
+    // MyVector v[80];
+    // MyVector v_sub; //벡터 차
     
     public:
     CollisionVectorStats(){}
@@ -52,10 +52,11 @@ class CollisionVectorStats{
 
     void view_title();//타이틀 화면
 
-    // void view_data_list();//데이터 목록 조회
-    // void view_stats();//통계 조회
 
     void save();//통계 내용 txt로 저장
+    
+    // void view_data_list();//데이터 목록 조회
+    // void view_stats();//통계 조회
     // void view_save();
 
     // void exit();
