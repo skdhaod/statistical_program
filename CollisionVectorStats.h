@@ -39,6 +39,10 @@ class CollisionVectorStats{
     
     public:
     CollisionVectorStats(){}
+
+    string get_file_create_time();
+    string get_filename();
+
     int load_file_name(string s);
     int load_field_name();
     int load_record();
@@ -48,11 +52,11 @@ class CollisionVectorStats{
 
     void view_title();//타이틀 화면
 
-    void view_data_list();//데이터 목록 조회
-    void view_stats();//통계 조회
+    // void view_data_list();//데이터 목록 조회
+    // void view_stats();//통계 조회
 
     void save();//통계 내용 txt로 저장
-    void view_save();
+    // void view_save();
 
-    void exit();
+    // void exit();
 };
