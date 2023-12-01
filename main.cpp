@@ -27,7 +27,7 @@ int main(int argc, char** argv){
         }
 
         if(p->stats_processing()){
-            cout << "stats prosassing error" << endl << endl;
+            cout << "stats processing error" << endl << endl;
             continue;
         }
         p->save();

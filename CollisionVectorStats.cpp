@@ -1,6 +1,13 @@
 #include "CollisionVectorStats.h"
 using namespace std;
 
+int Data::operator>(Data const &a){
+    if(v.magnitude>a.v.magnitude){
+        return 1;
+    }
+    return 0;
+}
+
 // 
 int CollisionVectorStats::load_file_name(string s){
     data_file_name=s;
@@ -72,13 +79,13 @@ int CollisionVectorStats::load_record(){
         for(int i=0;str[i];i++){
             if(str[i]==',') {
                 if(comma_index==f_i.height_index)
-                    record_lists[j].height=stof(temp);
+                    record_lists[j].v.height=stof(temp);
                 if(comma_index==f_i.vertical_index)
-                    record_lists[j].vertical=stof(temp);
+                    record_lists[j].v.vertical=stof(temp);
                 if(comma_index==f_i.vector_index)
-                    record_lists[j].vector=stof(temp);
+                    record_lists[j].v.magnitude=stof(temp);
                 if(comma_index==f_i.horizontal_index)
-                    record_lists[j].horizontal=stof(temp);
+                    record_lists[j].v.horizontal=stof(temp);
                 if(comma_index==f_i.date_index)
                     record_lists[j].date=temp;
                 if(comma_index==f_i.time_index)
@@ -97,48 +104,62 @@ int CollisionVectorStats::load_record(){
         // cin>>a;
     }
 
-    if(!record_lists[total_line_num-1].height) return 1;
+    if(!record_lists[total_line_num-1].v.height) return 1;
     return 0;
 }
 
 int CollisionVectorStats::stats_processing(){
     int i;
     max_differene_index=0;
-    float temp=0.00000;
+    Data temp;
     for(i=1;i<total_line_num;i++){ // 첫번째 값은 전 벡터값이 없음
-        if(get_vector_sub(record_lists[i].vector, record_lists[i-1].vector) > temp){
+        if(get_vector_sub(record_lists[i], record_lists[i-1]) > temp){
             max_differene_index=i;
-            temp=get_vector_sub(record_lists[i].vector, record_lists[i-1].vector);
+            temp=get_vector_sub(record_lists[i], record_lists[i-1]);
         }
     }
     if(i==total_line_num) return 0;
     return 1;
 }
 
-float CollisionVectorStats::get_vector_sub(float num1, float num2){
-    float result;
-    if(num1>num2){
-        return num1-num2;
+Data CollisionVectorStats::get_vector_sub(Data vec1, Data vec2){
+    Data result;
+    result.date=vec1.date;
+    result.time=vec1.time;
+    if(vec1.v.magnitude>vec2.v.magnitude){
+        result.v.height=vec1.v.height-vec2.v.height;
+        result.v.horizontal=vec1.v.horizontal-vec2.v.horizontal;
+        result.v.vertical=vec1.v.vertical-vec2.v.vertical;
     }
     else{
-        return num2-num1;
+        result.v.height=vec2.v.height-vec1.v.height;
+        result.v.horizontal=vec2.v.horizontal-vec1.v.horizontal;
+        result.v.vertical=vec2.v.vertical-vec1.v.vertical;
     }
-     
+    result.v.magnitude=sqrt(result.v.height*result.v.height + result.v.horizontal*result.v.horizontal + result.v.vertical*result.v.vertical);
+    return result;
 }
 
 int CollisionVectorStats::save(){
     ofstream file;
-	cout << fixed;
-	cout.precision(2);
-
+    Data temp;
+    temp=get_vector_sub(record_lists[max_differene_index], record_lists[max_differene_index-1]);
     file.open(get_file_create_time()+"_result.txt");
     file << "flie name: " << data_file_name << endl << endl;
-    file << "가장 큰 벡터값 차이" << endl << endl;
-    file << " index["<< max_differene_index-1 <<"] x: "<< record_lists[max_differene_index-1].height << ", y: " << record_lists[max_differene_index-1].horizontal <<", z: "<< record_lists[max_differene_index-1].vertical << ", v: "<< record_lists[max_differene_index-1].vector << endl;
-    file << " index["<< max_differene_index <<"] x: "<< record_lists[max_differene_index].height << ", y: " << record_lists[max_differene_index].horizontal <<", z: "<< record_lists[max_differene_index].vertical<< ", v: "<< record_lists[max_differene_index].vector << endl;
-    file << " 총 벡터값 차이: " << setw(7) << left << get_vector_sub(record_lists[max_differene_index].vector, record_lists[max_differene_index-1].vector)<< endl << endl;
-    // view_save();
+    file << "가장 큰 벡터 차" << endl << endl;
+
+    file << " index["<< max_differene_index-1 <<"] ("<< record_lists[max_differene_index-1].v.height << ", " << record_lists[max_differene_index-1].v.horizontal
+        <<", "<< record_lists[max_differene_index-1].v.vertical << ") -> "<< record_lists[max_differene_index-1].v.magnitude << endl;
+
+    file << " index["<< max_differene_index <<"] ("<< record_lists[max_differene_index].v.height << ", " << record_lists[max_differene_index].v.horizontal
+        <<", "<< record_lists[max_differene_index].v.vertical<< ") -> "<< record_lists[max_differene_index].v.magnitude << endl;
+    
+	file << fixed;
+	file.precision(5);
+    file << " 벡터 차(" << temp.v.height << ", " << temp.v.horizontal << ", " << temp.v.vertical << ") -> " << temp.v.magnitude << left << endl << endl;
+    
 }
+
 //void CollisionVectorStats::view_title(){
 //     system("cls");
 //     cout << " 통계 처리 프로그램" << endl << endl;
@@ -148,7 +169,6 @@ int CollisionVectorStats::save(){
 //     cout << " 4. 종료" << endl << endl;
 //     cout << " >> ";
 // }
-
 // void CollisionVectorStats::view_save(){
 //     string temp;
 //     system("cls");
@@ -157,12 +177,10 @@ int CollisionVectorStats::save(){
 //     cout << " >> ";
 //     cin>>temp;
 // }
-
 // void CollisionVectorStats::exit(){
 //     system("cls");
 //     cout << endl <<  " 감사합니다." << endl;
 // }
-
 // void CollisionVectorStats::view_data_list(){
 //     int temp;
 //     int i=0;
@@ -185,7 +203,6 @@ int CollisionVectorStats::save(){
 //         i=temp-1;
 //     }
 // }
-
 // void CollisionVectorStats::view_stats(){
 //     string temp;
 //     system("cls");

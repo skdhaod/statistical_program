@@ -6,16 +6,24 @@
 #include <fstream>//txt 파일 접근
 #include <string>
 #include <limits>
+#include <math.h>
 using namespace std;
 
-class Record{
+class Vector{
     public:
     float height;
     float horizontal;
     float vertical;
-    float vector; //계산된 벡터값이 있었다...
+    float magnitude; //계산된 벡터값이 있었다...
+};
+
+class Data{
+    public:
+    Vector v;
     string date;
     string time;
+
+    int operator>(Data const &a);
 };
 class FieldIndex{
     public:
@@ -29,7 +37,7 @@ class FieldIndex{
 
 class CollisionVectorStats{
     FieldIndex f_i={-1,-1,-1,-1,-1,-1};
-    Record record_lists[80];
+    Data record_lists[80];
     int max_differene_index; //차이가 가장 큰 인덱스
     int total_line_num; //라인 개수
     ifstream data_file;
@@ -48,7 +56,7 @@ class CollisionVectorStats{
     int load_record();
 
     int stats_processing();
-    float get_vector_sub(float, float);
+    Data get_vector_sub(Data, Data);
 
     //void view_title();//타이틀 화면
 
